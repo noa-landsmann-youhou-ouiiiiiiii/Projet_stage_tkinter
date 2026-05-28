@@ -12,8 +12,8 @@ def reset():    #Définition de la fonction 'reset'
     try:
         entry_valid_to.delete(0, END)
         entry_recipient_email.delete(0, END)
-        entry_firstname.delete(0, END)
-        entry_lastname.delete(0, END)   #Réinitialisation de tous les champs
+        nom_entry.delete(0, END)
+        prenom_entry.delete(0, END)   #Réinitialisation de tous les champs
         ou_menu.set("") #Réinitialisation du menu déroulant
     except AttributeError:
         pass    #J'aime pas voir des erreurs dans la console
@@ -154,10 +154,13 @@ L'équipe informatique
         send_email(recipient_email, sender_email, subject, body)
 
 def traitement_login(*args):
+    global login_label
     prenom = prenom_var.get()
     nom = nom_var.get()
-    resultat_login.set(f"{prenom.lower()}.{nom.lower()}@pedagocric.cric.asso.fr")
-
+    if prenom == "" and nom == "":
+        resultat_login.set("prenom.nom@pedagocric.cric.asso.fr")
+    else:
+        resultat_login.set(f"{prenom.lower()}.{nom.lower()}@pedagocric.cric.asso.fr")
 
 # Définition des couleurs
 
@@ -169,7 +172,6 @@ root = Tk()
 root.title("Créateur d'utilisateurs AD")
 root.geometry("900x600")
 root.config(bg="white")
-
 
 # Chargement de l'image de logo après avoir initialisé la fenêtre
 try:
@@ -183,8 +185,8 @@ if 'logo_photo' in locals():
     label_logo = Label(root, image=logo_photo)
     #label_logo.pack()
 
-frame_separation = Frame(root, height=3, width=900, bg=orange_altsysnet)
-frame_separation.pack(pady=10)
+frame_ligne = Frame(root, height=3, width=900, bg=orange_altsysnet)
+frame_ligne.pack(pady=10)
 
 identite_utilisateur_frame = Frame(root,bg="white")
 identite_utilisateur_frame.pack(fill="x")
@@ -192,13 +194,13 @@ identite_utilisateur_frame.pack(fill="x")
 identite_utilisateur_frame_2 = Frame(identite_utilisateur_frame,bg="white", pady=10, padx=10)
 identite_utilisateur_frame_2.pack(side="left")
 
-identite_utilisateur_label = Label(identite_utilisateur_frame_2, text="IDENTITÉ DE L'UTILISATEUR\n", fg=orange_altsysnet, bg="white")
+identite_utilisateur_label = Label(identite_utilisateur_frame_2, text="IDENTITÉ DE L'UTILISATEUR\n", fg=orange_altsysnet, bg="white", font="SergoeUI")
 identite_utilisateur_label.pack(side="top")
 
 sous_frame_prenom = Frame(identite_utilisateur_frame_2, bg="white")
 sous_frame_prenom.pack(side="left")
 
-prenom_label = Label(sous_frame_prenom, text="Prenom", bg="white", fg=couleur_texte)
+prenom_label = Label(sous_frame_prenom, text="Prénom", bg="white", fg=couleur_texte, font="SergoeUI")
 prenom_label.pack(side="left")
 
 prenom_var = StringVar()
@@ -209,7 +211,7 @@ prenom_entry.pack(side="left")
 sous_frame_nom = Frame(identite_utilisateur_frame_2, bg="white")
 sous_frame_nom.pack(side="left")
 
-nom_label = Label(sous_frame_nom, text="\t\tNom", bg="white", fg=couleur_texte)
+nom_label = Label(sous_frame_nom, text="\t\tNom", bg="white", fg=couleur_texte, font="SergoeUI")
 nom_label.pack(side="left")
 
 nom_var = StringVar()
@@ -218,15 +220,33 @@ nom_entry = Entry(sous_frame_nom, bg="white", width=50, textvariable=nom_var)
 nom_entry.pack(side="left")
 
 login_frame = Frame(root, bg="white")
-login_frame.pack(fill="x", pady=50, padx=10)
+login_frame.pack(fill="x", pady=30, padx=10)
 
-login_label = Label(login_frame, text="Login généré :", bg="white", fg=couleur_texte)
+login_label = Label(login_frame, text="Login généré :", bg=orange_altsysnet, fg=couleur_texte, font="SergoeUI")
 login_label.pack(side="left")
 
 resultat_login = StringVar()
+login_var = Label(login_frame, textvariable=resultat_login, bg=orange_altsysnet, fg=couleur_texte, font="SergoeUI")
 resultat_login.set("prenom.nom@pedagocric.cric.asso.fr")
-login_var = Label(login_frame, textvariable=resultat_login, bg="white", fg=couleur_texte)
 login_var.pack(side="left")
+
+parametres_compte_frame = Frame(root, bg="white")
+parametres_compte_frame.pack(fill="x", pady=30)
+
+parametres_compte_label = Label(parametres_compte_frame, text="Paramètres du compte\n", fg=orange_altsysnet, bg="white", font="SergoeUI")
+parametres_compte_label.pack(side="top")
+
+sous_frame_ou = Frame(parametres_compte_frame, bg="white")
+sous_frame_ou.pack(side="left")
+
+ou_label = Label(sous_frame_prenom, text="Prénom", bg="white", fg=couleur_texte, font="SergoeUI")
+ou_label.pack(side="left")
+
+sous_frame_date = Frame(identite_utilisateur_frame_2, bg="white")
+sous_frame_date.pack(side="left")
+
+nom_label = Label(sous_frame_nom, text="\t\tNom", bg="white", fg=couleur_texte, font="SergoeUI")
+nom_label.pack(side="left")
 
 label_firstname = Label(root, text="Prénom :")
 entry_firstname = Entry(root)
