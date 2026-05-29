@@ -227,7 +227,7 @@ login_frame = Frame(root, bg="white")
 login_frame.pack(fill="x", pady=30, padx=10)
 
 login_label = Label(login_frame, text="Login généré :", bg=orange_altsysnet, fg=couleur_texte, font="SergoeUI")
-login_label.pack(side="left")
+login_label.pack()
 
 resultat_login = StringVar()
 login_var = Label(login_frame, textvariable=resultat_login, bg=orange_altsysnet, fg=couleur_texte, font="SergoeUI")
