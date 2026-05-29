@@ -159,6 +159,10 @@ def traitement_login(*args):
     nom = nom_var.get()
     if prenom == "" and nom == "":
         resultat_login.set("prenom.nom@pedagocric.cric.asso.fr")
+    elif prenom != "" and nom == "":
+        resultat_login.set(f"{prenom.lower()}.nom@pedagocric.cric.asso.fr")
+    elif prenom == "" and nom != "":
+        resultat_login.set(f"prenom.{nom.lower()}@pedagocric.cric.asso.fr")
     else:
         resultat_login.set(f"{prenom.lower()}.{nom.lower()}@pedagocric.cric.asso.fr")
 
