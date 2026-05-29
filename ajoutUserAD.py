@@ -1,5 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
+
+from customtkinter import CTkLabel
+from tkcalendar import Calendar, DateEntry
+from customtkinter import *
 import os
 import sys
 import subprocess
@@ -154,7 +158,6 @@ L'équipe informatique
         send_email(recipient_email, sender_email, subject, body)
 
 def traitement_login(*args):
-    global login_label
     prenom = prenom_var.get()
     nom = nom_var.get()
     if prenom == "" and nom == "":
@@ -232,25 +235,7 @@ login_label.pack()
 resultat_login = StringVar()
 login_var = Label(login_frame, textvariable=resultat_login, bg=orange_altsysnet, fg=couleur_texte, font="SergoeUI")
 resultat_login.set("prenom.nom@pedagocric.cric.asso.fr")
-login_var.pack(side="left")
-
-parametres_compte_frame = Frame(root, bg="white")
-parametres_compte_frame.pack(fill="x", pady=30)
-
-parametres_compte_label = Label(parametres_compte_frame, text="Paramètres du compte\n", fg=orange_altsysnet, bg="white", font="SergoeUI")
-parametres_compte_label.pack(side="top")
-
-sous_frame_ou = Frame(parametres_compte_frame, bg="white")
-sous_frame_ou.pack(side="left")
-
-ou_label = Label(sous_frame_prenom, text="Prénom", bg="white", fg=couleur_texte, font="SergoeUI")
-ou_label.pack(side="left")
-
-sous_frame_date = Frame(identite_utilisateur_frame_2, bg="white")
-sous_frame_date.pack(side="left")
-
-nom_label = Label(sous_frame_nom, text="\t\tNom", bg="white", fg=couleur_texte, font="SergoeUI")
-nom_label.pack(side="left")
+login_var.pack()
 
 label_firstname = Label(root, text="Prénom :")
 entry_firstname = Entry(root)
@@ -273,34 +258,55 @@ ou_mapping = {entry.split(",")[0].replace("OU=", ""): entry for entry in ou_list
 ou_labels = list(ou_mapping.keys())
 
 selected_ou = StringVar()
-selected_ou.set("")  # Aucun choix par défaut
+selected_ou.set("Choisissez une option")  # Aucun choix par défaut
+
+parametres_compte_frame = Frame(root, bg="white")
+parametres_compte_frame.pack(fill="x", pady=30)
+
+parametres_compte_label = Label(parametres_compte_frame, text="Paramètres du compte\n", fg=orange_altsysnet, bg="white", font="SergoeUI")
+parametres_compte_label.pack(side="top", fill="x")
+
+sous_frame_ou = Frame(parametres_compte_frame, bg="white")
+sous_frame_ou.pack(side="left", padx=10)
+
+ou_label = Label(sous_frame_ou, text="Sélectionnez l'OU :", bg="white", fg=couleur_texte, font="SergoeUI")
+ou_label.pack(side="left")
+
+ou_menu = OptionMenu(sous_frame_ou, selected_ou, *ou_labels)
+ou_menu.pack(side="right")
+
+sous_frame_date = Frame(parametres_compte_frame, bg="white")
+sous_frame_date.pack(fill="x", padx=10)
+
+date_entry = DateEntry(sous_frame_date)
+date_entry.pack(side="right")
+
+date_label = Label(sous_frame_date, bg="white", text="Date de fin de formation : ", fg=couleur_texte, font="SergoeUI")
+date_label.pack(side="right")
 
 # Champs pour les e-mails
-label_recipient_email = Label(root, text="E-mail(s) du ou des destinataires :")
+label_recipient_email = Label(root, text="E-mail(s) du ou des destinataires :", bg="white", fg=couleur_texte, font="SergoeUI")
 entry_recipient_email = Entry(root)
-
-label_ou = Label(root, text="Sélectionnez l'OU :")
-ou_menu = OptionMenu(root, selected_ou, *ou_labels)
 
 button_create = Button(root, text="Créer l'utilisateur", command=create_user)
 
 button_reset = Button(root, text="Réinitialiser", command=reset)
 
-'''label_firstname.pack()
-entry_firstname.pack()
-label_lastname.pack()
-entry_lastname.pack()
-label_valid_to.pack()
-entry_valid_to.pack()
+#label_firstname.pack()
+#entry_firstname.pack()
+#label_lastname.pack()
+#entry_lastname.pack()
+#label_valid_to.pack()
+#entry_valid_to.pack()
 label_recipient_email.pack()
 entry_recipient_email.pack()
-label_ou.pack()
-ou_menu.pack()
+#label_ou.pack()
+#ou_menu.pack()
 button_create.pack()
-button_reset.pack()'''
+button_reset.pack()
 
-'''contact_message = "En cas de problème, contacter Altsysnet 09 72 54 05 47"
-label_contact = Label(root, text=contact_message)
-label_contact.pack(side=BOTTOM)'''
+contact_message = "En cas de problème, contacter Altsysnet au 09 72 54 05 47"
+label_contact = Label(root, text=contact_message, bg=orange_altsysnet, fg="black", font="SergoeUI")
+label_contact.pack(side="bottom", fill="x")
 
 root.mainloop()
